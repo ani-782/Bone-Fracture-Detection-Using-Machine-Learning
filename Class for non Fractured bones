@@ -1,0 +1,15 @@
+# Class for non-fractured bones (label = 0)
+    non_fractured_path = os.path.join(data_dir, 'non-fractured')
+    if os.path.exists(non_fractured_path):
+        for img_name in os.listdir(non_fractured_path):
+            img_path = os.path.join(non_fractured_path, img_name)
+            img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+            img = cv2.resize(img, (128, 128))
+            images.append(img)
+            labels.append(0)
+
+    images = np.array(images) / 255.0  # Normalize pixel values
+    images = np.expand_dims(images, axis=-1)  # Add channel dimension
+    labels = np.array(labels)
+
+    return images, labels
