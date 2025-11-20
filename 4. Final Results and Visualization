@@ -1,0 +1,14 @@
+# --- 4. Final Results and Visualization ---
+            print("\n--- Final Results ---")
+            print(f"Average Accuracy across {k_folds} folds: {np.mean(fold_accuracies)*100:.2f}%")
+            print(f"Standard Deviation of Accuracies: {np.std(fold_accuracies)*100:.2f}%")
+            
+            # Plot training history
+            plt.figure(figsize=(10, 5))
+            plt.plot(history.history['accuracy'], label='Training Accuracy')
+            plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
+            plt.title(f'Model Accuracy for Fold {k_folds}')
+            plt.ylabel('Accuracy')
+            plt.xlabel('Epoch')
+            plt.legend(loc='lower right')
+            plt.show()
