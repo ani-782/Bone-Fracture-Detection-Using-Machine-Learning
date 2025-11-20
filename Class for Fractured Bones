@@ -1,0 +1,9 @@
+# Class for fractured bones (label = 1)
+    fractured_path = os.path.join(data_dir, 'fractured')
+    if os.path.exists(fractured_path):
+        for img_name in os.listdir(fractured_path):
+            img_path = os.path.join(fractured_path, img_name)
+            img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+            img = cv2.resize(img, (128, 128))  # Resize to a fixed size
+            images.append(img)
+            labels.append(1)
