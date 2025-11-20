@@ -1,0 +1,29 @@
+This Python code uses the TensorFlow and Keras libraries to build and train a CNN model for bone fracture detection.
+
+Prerequisites: Install the necessary libraries and have a dataset of X-ray images.
+
+                pip install tensorflow opencv-python numpy scikit-learn matplotlib
+
+Dataset: You need a dataset of X-ray images with separate folders for fractured and non-fractured bones. 
+        A common publicly available dataset is the MURA (Musculoskeletal Radiographs) dataset from Stanford University. 
+        For this code to work, organize your data like this:data/
+data/
+├── train/
+│   ├── fractured/
+│   │   ├── img1.png
+│   │   ├── img2.png
+│   │   └── ...
+│   └── non-fractured/
+│       ├── img3.png
+│       ├── img4.png
+│       └── ...
+└── test/
+    ├── fractured/
+    │   └── ...
+    └── non-fractured/
+        └── ...
+
+        Python Script:bone_fracture_detection.py
+
+
+        
