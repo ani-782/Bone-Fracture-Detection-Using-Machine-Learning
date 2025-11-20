@@ -1,0 +1,49 @@
+# --- 3. Main Training and Evaluation Loop (5-Fold Cross-Validation) ---
+if __name__ == '__main__':
+    data_path = 'data/train'  # Adjust this path to your dataset
+    if not os.path.exists(data_path):
+        print(f"Error: The data path '{data_path}' does not exist.")
+        print("Please create the directory structure and add your images.")
+    else:
+        images, labels = load_data(data_path)
+
+        if images.size == 0:
+            print("No images found in the specified directory. Please check your data folder.")
+        else:
+            k_folds = 5
+            kf = KFold(n_splits=k_folds, shuffle=True, random_state=42)
+            fold_accuracies = []
+            
+            # Data Augmentation configuration
+            datagen = ImageDataGenerator(
+                rotation_range=20,
+                width_shift_range=0.1,
+                height_shift_range=0.1,
+                shear_range=0.1,
+                zoom_range=0.1,
+                horizontal_flip=True,
+                fill_mode='nearest'
+                )
+                for fold, (train_index, val_index) in enumerate(kf.split(images)):
+                print(f"--- Starting Fold {fold+1}/{k_folds} ---")
+                
+                # Split data for the current fold
+                X_train, X_val = images[train_index], images[val_index]
+                y_train, y_val = labels[train_index], labels[val_index]
+                
+                # Build and train the model for this fold
+                model = build_model(input_shape=(128, 128, 1))
+                
+                # Train the model with data augmentation
+                history = model.fit(datagen.flow(X_train, y_train, batch_size=32),
+                                    epochs=10,  # You may need more epochs for a larger dataset
+                                    validation_data=(X_val, y_val),
+                                    verbose=1)
+                
+                # Evaluate the model on the validation set
+                loss, accuracy = model.evaluate(X_val, y_val, verbose=0)
+                print(f"Fold {fold+1} Validation Accuracy: {accuracy*100:.2f}%")
+                fold_accuracies.append(accuracy)
+                
+                # Optional: Save the model
+                model.save(f'bone_fracture_model_fold_{fold+1}.h5')
